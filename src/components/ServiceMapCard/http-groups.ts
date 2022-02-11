@@ -6,6 +6,7 @@ import {
   L7Endpoint,
 } from '~/domain/interactions/new-connections';
 import { L7Kind } from '~/domain/hubble';
+import { Method } from '~/domain/http';
 
 export class HTTPEndpointGroup {
   public static createSorted(
@@ -73,8 +74,8 @@ export class HTTPEndpointGroup {
     return this.url.pathname;
   }
 
-  public get methods(): Set<string> {
-    const s = new Set<string>();
+  public get methods(): Set<Method> {
+    const s = new Set<Method>();
 
     this.endpoints.forEach(ep => {
       if (ep.ref.http == null) return;
