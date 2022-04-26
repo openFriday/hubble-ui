@@ -4,6 +4,7 @@ import util from 'util';
 import _glob from 'glob';
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import requireTransform from 'vite-plugin-require-transform';
 
 import inliner from '@geakstr/sass-inline-svg'
 
@@ -15,9 +16,12 @@ export default defineConfig(async () => {
   console.log('protojs: ', protoJs);
 
   return {
-    plugins: [react(/*{
-      jsxRuntime: 'classic',
-    }*/)],
+    plugins: [
+      react(/*{ jsxRuntime: 'classic' }*/),
+      requireTransform({
+        fileRegex: /.ts$|.tsx|.js|.jsx$/
+      }),
+    ],
     root: './src',
     resolve: {
       alias: [
