@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from '@reach/router';
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react';
 
 import { StoreProvider } from '~/store';
 import { RouteHistorySourceKind, Route } from '~/store/stores/route';
@@ -25,20 +25,20 @@ declare global {
   }
 }
 
+const Screen = observer(() => {
+  useHooksOnDataManager();
+
+  return (
+    <Router>
+      <App key="service-map" api={api} path="/*appPath" />
+    </Router>
+  );
+});
+
 const run = async () => {
   ui.setCSSVars(ui.sizes);
 
   const routes: Route[] = [Route.new('service-map', { path: '(/:namespace)' })];
-
-  const Screen = observer(() => {
-    useHooksOnDataManager();
-
-    return (
-      <Router>
-        <App key="service-map" api={api} path="/*appPath" />
-      </Router>
-    );
-  });
 
   // NOTE: we don't have another option to take notifier from except from inside
   const onFeatureFetchError = (err: Error, notifier: Notifier) => {

@@ -1,5 +1,7 @@
-import { Verdict as PBVerdict } from '~backend/proto/flow/flow_pb';
+import * as flowPb from '~backend/proto/flow/flow_pb';
 import { Verdict } from '~/domain/hubble';
+
+import PBVerdict = flowPb.Verdict;
 
 export const verdictFromPb = (v: PBVerdict): Verdict => {
   let verdict = Verdict.Unknown;

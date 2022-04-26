@@ -18,11 +18,13 @@ import {
 
 import { LoadingOverlay } from '~/components/Misc/LoadingOverlay';
 import { DataMode } from '~/domain/interactions';
-import { usePanelResize, ResizeProps } from './hooks/usePanelResize';
+import { usePanelResize } from './hooks/usePanelResize';
+import type { ResizeProps } from './hooks/usePanelResize';
 
 import css from './styles.scss';
 
-export { DEFAULT_TS_UPDATE_DELAY, TickerEvents, OnFlowsDiffCount };
+export { DEFAULT_TS_UPDATE_DELAY, TickerEvents };
+export type { OnFlowsDiffCount };
 
 interface PanelProps {
   namespace: string;

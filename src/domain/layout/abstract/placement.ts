@@ -1,6 +1,7 @@
 import { action, computed, observable, makeObservable, autorun } from 'mobx';
 
-import { XYWH, WH, XY } from '~/domain/geometry';
+import { XYWH } from '~/domain/geometry';
+import type { WH, XY } from '~/domain/geometry';
 
 export abstract class PlacementStrategy {
   @observable

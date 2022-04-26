@@ -1,5 +1,5 @@
-import { KV } from '~/domain/misc';
-export { KV };
+import type { KV } from '~/domain/misc';
+export type { KV };
 
 export interface LabelsProps {
   isHost: boolean;

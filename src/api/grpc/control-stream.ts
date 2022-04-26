@@ -1,7 +1,9 @@
 import { ClientReadableStream } from 'grpc-web';
 
-import { GetControlStreamResponse as StreamResponse } from '~backend/proto/ui/ui_pb';
-import { Notification as PBNotification } from '~backend/proto/ui/notifications_pb';
+import * as uiPb from '~backend/proto/ui/ui_pb';
+import * as notifPb from '~backend/proto/ui/notifications_pb';
+
+import StreamResponse = uiPb.GetControlStreamResponse;
 
 import {
   ControlStream as IControlStream,
@@ -63,7 +65,7 @@ export class ControlStream
     });
   }
 
-  private emitNotification(notif?: PBNotification) {
+  private emitNotification(notif?: notifPb.Notification) {
     if (!notif) return;
 
     const notification = helpers.notifications.fromPb(notif);

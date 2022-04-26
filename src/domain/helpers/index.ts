@@ -8,12 +8,7 @@ import {
   IPProtocol,
 } from '~/domain/hubble';
 
-import {
-  Service as PBRelayService,
-  ServiceLink as PBRelayServiceLink,
-  IPProtocol as PBIPProtocol,
-  StateChange as PBStateChange,
-} from '~backend/proto/ui/ui_pb';
+import * as uiPb from '~backend/proto/ui/ui_pb';
 
 import { StateChange } from '~/domain/misc';
 import { KV } from '~/domain/misc';
@@ -39,22 +34,22 @@ export { l7 };
 
 export * as time from './time';
 
-export const stateChangeFromPb = (change: PBStateChange): StateChange => {
+export const stateChangeFromPb = (change: uiPb.StateChange): StateChange => {
   switch (change) {
-    case PBStateChange.ADDED:
+    case uiPb.StateChange.ADDED:
       return StateChange.Added;
-    case PBStateChange.MODIFIED:
+    case uiPb.StateChange.MODIFIED:
       return StateChange.Modified;
-    case PBStateChange.DELETED:
+    case uiPb.StateChange.DELETED:
       return StateChange.Deleted;
-    case PBStateChange.EXISTS:
+    case uiPb.StateChange.EXISTS:
       return StateChange.Exists;
   }
 
   return StateChange.Unknown;
 };
 
-export const relayServiceFromPb = (svc: PBRelayService): HubbleService => {
+export const relayServiceFromPb = (svc: uiPb.Service): HubbleService => {
   const obj = svc.toObject();
   const labels: Array<KV> = [];
 
@@ -80,9 +75,7 @@ export const relayServiceFromPb = (svc: PBRelayService): HubbleService => {
   };
 };
 
-export const relayServiceLinkFromPb = (
-  link: PBRelayServiceLink,
-): HubbleLink => {
+export const relayServiceLinkFromPb = (link: uiPb.ServiceLink): HubbleLink => {
   const obj = link.toObject();
 
   return {
@@ -95,15 +88,15 @@ export const relayServiceLinkFromPb = (
   };
 };
 
-export const ipProtocolFromPb = (ipp: PBIPProtocol): IPProtocol => {
+export const ipProtocolFromPb = (ipp: uiPb.IPProtocol): IPProtocol => {
   switch (ipp) {
-    case PBIPProtocol.TCP:
+    case uiPb.IPProtocol.TCP:
       return IPProtocol.TCP;
-    case PBIPProtocol.UDP:
+    case uiPb.IPProtocol.UDP:
       return IPProtocol.UDP;
-    case PBIPProtocol.ICMP_V4:
+    case uiPb.IPProtocol.ICMP_V4:
       return IPProtocol.ICMPv4;
-    case PBIPProtocol.ICMP_V6:
+    case uiPb.IPProtocol.ICMP_V6:
       return IPProtocol.ICMPv6;
   }
 

@@ -1,10 +1,12 @@
-import { FlowFilter, EventTypeFilter } from '~backend/proto/flow/flow_pb';
+import * as flowPb from '~backend/proto/flow/flow_pb';
 
 import * as helpers from '~/domain/helpers';
 import { CiliumEventTypes } from '~/domain/cilium';
 import { ReservedLabel, SpecialLabel } from '~/domain/labels';
 import { Filters, FilterEntry, FilterKind } from '~/domain/filtering';
 
+import FlowFilter = flowPb.FlowFilter;
+import EventTypeFilter = flowPb.EventTypeFilter;
 export type FlowFilters = [FlowFilter[], FlowFilter[]];
 
 export const baseWhitelistFilter = (filters?: Filters): FlowFilter => {

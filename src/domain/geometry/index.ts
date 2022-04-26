@@ -7,11 +7,13 @@ import * as utils from './utils';
 import * as rounding from './rounding';
 import { segmentsIntersection } from './intersections';
 
-export { XY, WH, XYWH };
+export { XYWH };
 export { Vec2, Line2 };
 export { utils };
 export { rounding };
 export { segmentsIntersection };
+
+export type { XY, WH };
 
 export const dummy = {
   xy(x = 0, y = 0): XY {

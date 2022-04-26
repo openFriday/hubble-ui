@@ -1,22 +1,4 @@
-import {
-  Flow as PBFlow,
-  IPVersion as PBIPVersion,
-  Ethernet as PBEthernet,
-  IP as PBIP,
-  Layer4 as PBLayer4,
-  Layer7 as PBLayer7,
-  TCP as PBTCP,
-  UDP as PBUDP,
-  ICMPv4 as PBICMPv4,
-  ICMPv6 as PBICMPv6,
-  TCPFlags as PBTCPFlags,
-  Endpoint as PBEndpoint,
-  FlowType as PBFlowType,
-  L7FlowType as PBL7FlowType,
-  TrafficDirection as PBTrafficDirection,
-  CiliumEventType as PBCiliumEventType,
-  Service as PBService,
-} from '~backend/proto/flow/flow_pb';
+import * as flowPb from '~backend/proto/flow/flow_pb';
 
 import {
   HubbleFlow,
@@ -118,7 +100,7 @@ export const isoTimeToHubbleTime = (t: string | null): Time | null => {
   return { seconds, nanos };
 };
 
-export const hubbleFlowFromPb = (flow: PBFlow): HubbleFlow => {
+export const hubbleFlowFromPb = (flow: flowPb.Flow): HubbleFlow => {
   let time: any = void 0;
 
   if (flow.hasTime()) {
@@ -167,7 +149,7 @@ export const hubbleFlowFromPb = (flow: PBFlow): HubbleFlow => {
 };
 
 export const flowServiceFromPb = (
-  svc: PBService | undefined,
+  svc: flowPb.Service | undefined,
 ): FlowService | undefined => {
   return svc == null ? undefined : svc!.toObject();
 };
@@ -182,12 +164,12 @@ export const flowServiceFromObj = (obj: any): FlowService | null => {
 };
 
 export const ciliumEventTypeFromPb = (
-  cet: PBCiliumEventType | undefined,
+  cet: flowPb.CiliumEventType | undefined,
 ): CiliumEventType | undefined => {
   return cet == null ? undefined : cet!.toObject();
 };
 
-export const l7FromPb = (l7: PBLayer7 | undefined): Layer7 | undefined => {
+export const l7FromPb = (l7: flowPb.Layer7 | undefined): Layer7 | undefined => {
   if (l7 == null) return undefined;
 
   const obj = {
@@ -240,14 +222,14 @@ export const l7dnsFromObj = (dns: any): DNS | null => {
   };
 };
 
-export const l7FlowTypeFromPb = (pb: PBL7FlowType): L7FlowType => {
+export const l7FlowTypeFromPb = (pb: flowPb.L7FlowType): L7FlowType => {
   let ft = L7FlowType.Unknown;
 
-  if (pb === PBL7FlowType.REQUEST) {
+  if (pb === flowPb.L7FlowType.REQUEST) {
     ft = L7FlowType.Request;
-  } else if (pb === PBL7FlowType.RESPONSE) {
+  } else if (pb === flowPb.L7FlowType.RESPONSE) {
     ft = L7FlowType.Response;
-  } else if (pb === PBL7FlowType.SAMPLE) {
+  } else if (pb === flowPb.L7FlowType.SAMPLE) {
     ft = L7FlowType.Sample;
   }
 
@@ -272,13 +254,13 @@ export const l7FlowTypeFromStr = (str: string): L7FlowType => {
 };
 
 export const trafficDirectionFromPb = (
-  pb: PBTrafficDirection,
+  pb: flowPb.TrafficDirection,
 ): TrafficDirection => {
   let dir = TrafficDirection.Unknown;
 
-  if (pb === PBTrafficDirection.INGRESS) {
+  if (pb === flowPb.TrafficDirection.INGRESS) {
     dir = TrafficDirection.Ingress;
-  } else if (pb === PBTrafficDirection.EGRESS) {
+  } else if (pb === flowPb.TrafficDirection.EGRESS) {
     dir = TrafficDirection.Egress;
   }
 
@@ -299,12 +281,12 @@ export const trafficDirectionFromStr = (str: string): TrafficDirection => {
   return dir;
 };
 
-export const flowTypeFromPb = (ft: PBFlowType): FlowType => {
+export const flowTypeFromPb = (ft: flowPb.FlowType): FlowType => {
   let t = FlowType.Unknown;
 
-  if (ft === PBFlowType.L3_L4) {
+  if (ft === flowPb.FlowType.L3_L4) {
     t = FlowType.L34;
-  } else if (ft === PBFlowType.L7) {
+  } else if (ft === flowPb.FlowType.L7) {
     t = FlowType.L7;
   }
 
@@ -324,7 +306,7 @@ export const flowTypeFromStr = (str: string): FlowType => {
 };
 
 export const endpointFromPb = (
-  ep: PBEndpoint | undefined,
+  ep: flowPb.Endpoint | undefined,
 ): Endpoint | undefined => {
   return ep == null ? undefined : ep.toObject();
 };
@@ -342,22 +324,22 @@ export const endpointFromObj = (obj: any): Endpoint | null => {
 };
 
 export const ethernetFromPb = (
-  e: PBEthernet | undefined,
+  e: flowPb.Ethernet | undefined,
 ): Ethernet | undefined => {
   if (e == null) return undefined;
 
   return e!.toObject();
 };
 
-export const ipFromPb = (ip: PBIP | undefined): IP | undefined => {
+export const ipFromPb = (ip: flowPb.IP | undefined): IP | undefined => {
   if (ip == null) return undefined;
 
   let ipVersion = IPVersion.NotUsed;
   const fipVersion = ip.getIpversion();
 
-  if (fipVersion === PBIPVersion.IPV4) {
+  if (fipVersion === flowPb.IPVersion.IPV4) {
     ipVersion = IPVersion.V4;
-  } else if (fipVersion == PBIPVersion.IPV6) {
+  } else if (fipVersion == flowPb.IPVersion.IPV6) {
     ipVersion = IPVersion.V6;
   }
 
@@ -387,7 +369,7 @@ export const ipVersionFromStr = (ipv: string): IPVersion => {
   return IPVersion.NotUsed;
 };
 
-export const l4FromPb = (l4: PBLayer4 | undefined): Layer4 | undefined => {
+export const l4FromPb = (l4: flowPb.Layer4 | undefined): Layer4 | undefined => {
   if (l4 == null) return undefined;
 
   let tcp: TCP | undefined = undefined;
@@ -453,7 +435,9 @@ export const l4FromObj = (l4: any): Layer4 | null => {
   return parsed;
 };
 
-export const tcpFlagsFromObject = (obj: any | PBTCPFlags): TCPFlags | null => {
+export const tcpFlagsFromObject = (
+  obj: any | flowPb.TCPFlags,
+): TCPFlags | null => {
   if (obj == null) return null;
 
   if (obj.toObject != null) obj = obj.toObject();
@@ -471,7 +455,7 @@ export const tcpFlagsFromObject = (obj: any | PBTCPFlags): TCPFlags | null => {
   };
 };
 
-export const tcpFromPb = (tcp: PBTCP): TCP => {
+export const tcpFromPb = (tcp: flowPb.TCP): TCP => {
   return {
     sourcePort: tcp.getSourcePort(),
     destinationPort: tcp.getDestinationPort(),
@@ -479,18 +463,18 @@ export const tcpFromPb = (tcp: PBTCP): TCP => {
   };
 };
 
-export const tcpFlagsFromPb = (flags: PBTCPFlags): TCPFlags => {
+export const tcpFlagsFromPb = (flags: flowPb.TCPFlags): TCPFlags => {
   return flags.toObject();
 };
 
-export const udpFromPb = (udp: PBUDP): UDP => {
+export const udpFromPb = (udp: flowPb.UDP): UDP => {
   return udp.toObject();
 };
 
-export const icmpv4FromPb = (icmp: PBICMPv4): ICMPv4 => {
+export const icmpv4FromPb = (icmp: flowPb.ICMPv4): ICMPv4 => {
   return icmp.toObject();
 };
 
-export const icmpv6FromPb = (icmp: PBICMPv6): ICMPv6 => {
+export const icmpv6FromPb = (icmp: flowPb.ICMPv6): ICMPv6 => {
   return icmpv4FromPb(icmp);
 };

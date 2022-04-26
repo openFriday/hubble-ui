@@ -1,4 +1,4 @@
-import { Flow, Verdict } from '~/domain/flows';
+import { Flow } from '~/domain/flows';
 import {
   FilterEntry,
   Kind as FilterKind,
@@ -14,12 +14,12 @@ import { filterLink, filterLinkByEntry } from './filter-link';
 import { filterService, filterServiceByEntry } from './filter-service';
 import { FiltersDiff } from './filters-diff';
 
-export { Filters, FiltersObject, FiltersKey };
+export type { FiltersObject, FiltersKey };
 export { FilterEntry, FilterKind, FilterDirection };
 export { filterFlow, filterFlowByEntry };
 export { filterLink, filterLinkByEntry };
 export { filterService, filterServiceByEntry };
-export { FiltersDiff };
+export { Filters, FiltersDiff };
 
 export type FilterResult = {
   flows: Flow[];

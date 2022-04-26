@@ -1,5 +1,5 @@
-import { UIClient } from '~backend/proto/ui/ui_grpc_web_pb';
-import { GetControlStreamRequest } from '~backend/proto/ui/ui_pb';
+import * as uiGrpcWeb from '~backend/proto/ui/ui_grpc_web_pb';
+import * as uiPb from '~backend/proto/ui/ui_pb';
 
 import { API, CoreAPIv1, EventParams } from '~/api/general';
 import {
@@ -14,7 +14,7 @@ import { Filters } from '~/domain/filtering';
 import { FeatureFlags } from '~/domain/features';
 
 export class APIv1 implements CoreAPIv1 {
-  private client: UIClient;
+  private client: uiGrpcWeb.UIClient;
 
   public static readonly defaultEventStreamParams = EventParamsSet.Namespaces;
 
@@ -29,7 +29,7 @@ export class APIv1 implements CoreAPIv1 {
       addr = `${document.location.origin}${path}`;
     }
 
-    this.client = new UIClient(addr);
+    this.client = new uiGrpcWeb.UIClient(addr);
   }
 
   public getEventStream(params?: EventParams, filters?: Filters): IEventStream {
@@ -46,7 +46,7 @@ export class APIv1 implements CoreAPIv1 {
 
   public getControlStream(): IControlStream {
     const requestFn = () => {
-      const req = new GetControlStreamRequest();
+      const req = new uiPb.GetControlStreamRequest();
       return this.client.getControlStream(req);
     };
 
@@ -54,7 +54,7 @@ export class APIv1 implements CoreAPIv1 {
   }
 
   public async getFeatureFlags(): Promise<FeatureFlags> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       resolve({});
     });
   }

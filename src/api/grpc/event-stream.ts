@@ -1,15 +1,6 @@
 import { ClientReadableStream } from 'grpc-web';
 
-import {
-  GetEventsRequest,
-  GetEventsResponse,
-  EventType,
-  EventFilter,
-  ServiceState,
-  ServiceLinkState,
-  K8sNamespaceState,
-  Flows as PBFlows,
-} from '~backend/proto/ui/ui_pb';
+import * as uiPb from '~backend/proto/ui/ui_pb';
 
 import { Notification as PBNotification } from '~backend/proto/ui/notifications_pb';
 
@@ -29,7 +20,10 @@ import * as helpers from '~/domain/helpers';
 
 import { ThrottledEmitter } from '~/utils/throttled-emitter';
 
+import GetEventsResponse = uiPb.GetEventsResponse;
 import EventCase = GetEventsResponse.EventCase;
+import EventType = uiPb.EventType;
+
 type GRPCEventStream = ClientReadableStream<GetEventsResponse>;
 
 export class EventStream
@@ -44,8 +38,8 @@ export class EventStream
   public static buildRequest(
     opts: EventParams,
     filters: Filters,
-  ): GetEventsRequest {
-    const req = new GetEventsRequest();
+  ): uiPb.GetEventsRequest {
+    const req = new uiPb.GetEventsRequest();
 
     if (opts.flows) {
       req.addEventTypes(EventType.FLOWS);
@@ -174,7 +168,7 @@ export class EventStream
     }
   }
 
-  private emitFlows(pbFlows: PBFlows | undefined) {
+  private emitFlows(pbFlows: uiPb.Flows | undefined) {
     if (pbFlows == null) return;
 
     const pbFlowsList = pbFlows.getFlowsList();
@@ -190,7 +184,7 @@ export class EventStream
     });
   }
 
-  private emitServiceChange(sstate: ServiceState | undefined) {
+  private emitServiceChange(sstate: uiPb.ServiceState | undefined) {
     if (sstate == null) return;
 
     const svc = sstate.getService();
@@ -204,7 +198,7 @@ export class EventStream
     this.emit(EventKind.Service, { service, change });
   }
 
-  private emitLinkChange(link: ServiceLinkState | undefined) {
+  private emitLinkChange(link: uiPb.ServiceLinkState | undefined) {
     if (link == null) return;
 
     const linkObj = link.getServiceLink();
@@ -218,7 +212,7 @@ export class EventStream
     });
   }
 
-  private emitNamespaceChange(ns: K8sNamespaceState | undefined) {
+  private emitNamespaceChange(ns: uiPb.K8sNamespaceState | undefined) {
     if (ns == null) return;
     const change = ns.getType();
     const namespace = ns.getNamespace();
@@ -241,7 +235,7 @@ export class EventStream
 }
 
 const flowFilterToEventFilter = (flowFilter: FlowFilter) => {
-  const filter = new EventFilter();
+  const filter = new uiPb.EventFilter();
   filter.setFlowFilter(flowFilter);
   return filter;
 };

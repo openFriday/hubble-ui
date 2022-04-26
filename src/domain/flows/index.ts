@@ -27,7 +27,8 @@ import * as timeHelpers from '~/domain/helpers/time';
 import * as protocolHelpers from '~/domain/helpers/protocol';
 import * as l7helpers from '~/domain/helpers/l7';
 
-export { HubbleFlow, Verdict, TCPFlags };
+export type { HubbleFlow, TCPFlags };
+export { Verdict };
 
 export class Flow {
   private _id?: string;

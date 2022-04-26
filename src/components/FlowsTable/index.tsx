@@ -15,7 +15,8 @@ import css from './styles.scss';
 
 export { Column, defaultVisibleColumns } from './general';
 export const DEFAULT_TS_UPDATE_DELAY = 2500;
-export { TickerEvents, OnFlowsDiffCount };
+export type { OnFlowsDiffCount };
+export { TickerEvents };
 
 export interface Props extends CommonProps {
   flows: Flow[];

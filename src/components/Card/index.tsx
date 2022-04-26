@@ -6,7 +6,6 @@ import React, {
   useCallback,
   useEffect,
   useRef,
-  useMemo,
 } from 'react';
 
 import { XY } from '~/domain/geometry';
@@ -24,7 +23,7 @@ import {
 
 import css from './styles.scss';
 
-export {
+export type {
   BaseCardProps,
   CardComponentProps,
   DivRef,
