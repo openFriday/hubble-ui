@@ -16,7 +16,7 @@ Troubleshooting connectivity in microservices-based applications is a challengin
 
 Hubble UI enables effortless, automatic discovery of the service dependency graph for Kubernetes Clusters at L3/L4 and even L7, allowing user-friendly visualization and filtering of dataflows as a Service Map.
 
-See the [Hubble | Getting Started Guide](https://docs.cilium.io/en/latest/gettingstarted/hubble/) for more information.
+See the [Hubble Introduction](https://docs.cilium.io/en/latest/gettingstarted/hubble_intro/) for more information.
 
 ![Service Map](https://user-images.githubusercontent.com/46656072/210303251-dfd5c3f5-0568-4287-adec-d664494e39ed.png)
 
